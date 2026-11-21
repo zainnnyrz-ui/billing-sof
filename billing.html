@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RATE SLIP</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div id="app" class="screen-only">
+        <aside class="sidebar">
+            <div class="logo">
+                <h2>InvoicePro</h2>
+                <div class="logo-sub">Billing Software</div>
+            </div>
+            <nav>
+                <button class="nav-btn active" data-target="dashboard">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                    </svg>
+                    Billing
+                </button>
+                <button class="nav-btn" data-target="inventory">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path
+                            d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z">
+                        </path>
+                        <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                        <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                    </svg>
+                    Inventory
+                </button>
+                <button class="nav-btn" data-target="settings">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="3"></circle>
+                        <path
+                            d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z">
+                        </path>
+                    </svg>
+                    Settings
+                </button>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <section id="dashboard" class="page active">
+                <header>
+                    <div>
+                        <h1>Create Invoice</h1>
+                        <p class="subtitle">Draft your bill and automatically deduct stock</p>
+                    </div>
+                    <button id="generate-invoice-btn" class="primary-btn">Complete & Print Invoice</button>
+                </header>
+
+                <div class="billing-container">
+                    <div class="panel half customer-details card">
+                        <h3>Customer Details</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Customer Name</label>
+                                <input type="text" id="cust-name" placeholder="Name">
+                            </div>
+                            <div class="form-group">
+                                <label>Address Details</label>
+                                <textarea id="cust-address" placeholder="Address, City, State..."></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>GSTIN/Phone (Optional)</label>
+                                <input type="text" id="cust-gstin" placeholder="GSTIN / Phone">
+                            </div>
+                            <div class="form-group">
+                                <label>Invoice Date</label>
+                                <input type="date" id="inv-date">
+                            </div>
+                            <div class="form-group">
+                                <label>Invoice No</label>
+                                <input type="text" id="inv-no">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel half item-selection card">
+                        <h3>Search & Add Item</h3>
+                        <div class="add-item-row"
+                            style="display: flex; flex-direction: column; gap: 12px; align-items: stretch; margin-bottom: 12px;">
+                            <div style="display: flex; gap: 12px; width: 100%;">
+                                <div class="search-wrapper" style="flex: 1;">
+                                    <input type="text" id="item-search" placeholder="Type to search stock..."
+                                        autocomplete="off">
+                                    <div id="search-results" class="search-dropdown hidden"></div>
+                                </div>
+                                <div class="qty-wrapper" style="width: 80px; flex: none;">
+                                    <input type="number" id="item-qty" placeholder="Qty" value="1" min="0.01"
+                                        step="0.01">
+                                </div>
+                            </div>
+                            <div style="display: flex; gap: 12px;">
+                                <button id="add-to-bill-btn" class="primary-btn"
+                                    style="flex: 1; justify-content: center;">Add to Bill</button>
+                                <button id="bulk-add-btn" class="secondary-btn"
+                                    style="flex: 1; justify-content: center;">Bulk Add Multiple</button>
+                            </div>
+                        </div>
+                        <div id="selected-item-info" class="item-info muted">Select an item to view stock.</div>
+                    </div>
+
+                    <div class="panel full current-bill card">
+                        <h3>Current Bill</h3>
+                        <div class="table-wrapper">
+                            <table class="bill-table">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 5%">S.No.</th>
+                                        <th style="width: 45%">PRODUCT</th>
+                                        <th style="width: 15%">QTY</th>
+                                        <th style="width: 15%">RATE</th>
+                                        <th style="width: 15%">AMOUNT</th>
+                                        <th style="width: 5%" class="text-center">Del</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="bill-body">
+                                    <!-- Bill items injected here -->
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="4" class="text-right"><strong>TOTAL</strong></td>
+                                        <td id="bill-total">0.00</td>
+                                        <td></td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="inventory" class="page">
+                <header>
+                    <div>
+                        <h1>Inventory Management</h1>
+                        <p class="subtitle">Manage products, pricing, and view active stock</p>
+                    </div>
+                    <div style="display: flex; gap: 8px;">
+                        <button id="add-new-item-btn" class="primary-btn">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <line x1="12" y1="5" x2="12" y2="19"></line>
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                            </svg>
+                            Add Stock
+                        </button>
+                        <button id="bulk-create-btn" class="secondary-btn">Create Multiple Products</button>
+                        <button id="bulk-stock-btn" class="secondary-btn">Update Multiple Stocks</button>
+                    </div>
+                </header>
+                <div class="card panel full">
+                    <div class="table-controls">
+                        <input type="text" id="inventory-search" placeholder="Filter inventory..." class="search-input">
+                    </div>
+                    <div class="table-wrapper">
+                        <table class="stock-table">
+                            <thead>
+                                <tr>
+                                    <th>Item Name</th>
+                                    <th>Rate (₹/Piece)</th>
+                                    <th>Current Stock (Pieces)</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="inventory-body">
+                                <!-- Inventory injected here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <section id="settings" class="page">
+                <header>
+                    <div>
+                        <h1>Settings</h1>
+                        <p class="subtitle">Customize your invoice presentation. If a field is empty, it will be
+                            automatically hidden.</p>
+                    </div>
+                    <button id="save-settings-btn" class="primary-btn">Save Settings</button>
+                </header>
+                <div class="settings-container">
+                    <div class="card panel half">
+                        <h3>Distributor Details (Shown on Top Left)</h3>
+                        <p class="hint">Leave unneeded fields blank.</p>
+                        <div class="form-group">
+                            <label>Business Name (Main Title)</label>
+                            <input type="text" id="dist-name" placeholder="e.g. SHRI ALAGAPPA DISTRIBUTOR">
+                        </div>
+                        <div class="form-group">
+                            <label>Address Line 1</label>
+                            <input type="text" id="dist-addr1" placeholder="e.g. NO.25 TVR COMPLEX">
+                        </div>
+                        <div class="form-group">
+                            <label>Address Line 2</label>
+                            <input type="text" id="dist-addr2" placeholder="e.g. GANDHI NAGAR (WEST)">
+                        </div>
+                        <div class="form-group">
+                            <label>Address Line 3</label>
+                            <input type="text" id="dist-addr3" placeholder="e.g. KARUR">
+                        </div>
+                    </div>
+                    <div class="card panel half">
+                        <h3 style="opacity:0">More Details</h3>
+                        <br>
+                        <div class="form-group">
+                            <label>State & Code</label>
+                            <input type="text" id="dist-state" placeholder="e.g. State Name : Tamil Nadu, Code : 33">
+                        </div>
+                        <div class="form-group">
+                            <label>Contact Info</label>
+                            <input type="text" id="dist-contact" placeholder="e.g. Contact : 9965582231">
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="text" id="dist-email" placeholder="e.g. Email : ...@gmail.com">
+                        </div>
+                        <div class="form-group">
+                            <label>GSTIN</label>
+                            <input type="text" id="dist-gstin" placeholder="e.g. GSTIN : 123456789">
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Printable Invoice (Only visible when printing) -->
+    <div id="printable-invoice" class="print-only">
+        <div class="invoice-wrapper">
+            <div class="invoice-header">
+                <div class="distributor-section" id="print-distributor">
+                    <!-- Dynamically injected -->
+                </div>
+                <div class="slip-title">RATE SLIP</div>
+                <div class="customer-section">
+                    <div><strong id="print-cust-name"></strong></div>
+                    <div id="print-cust-address" style="white-space: pre-wrap;"></div>
+                    <div id="print-cust-gstin"></div>
+                </div>
+            </div>
+
+            <div class="meta-row">
+                <div class="meta-col">
+                    <span id="print-inv-date"></span><br>
+                    <span id="print-inv-no"></span>
+                </div>
+            </div>
+
+            <table class="print-table">
+                <thead>
+                    <tr>
+                        <th style="width: 8%">S.No.</th>
+                        <th style="width: 52%; text-align: left;">PRODUCT</th>
+                        <th style="width: 10%">QTY</th>
+                        <th style="width: 15%">RATE</th>
+                        <th style="width: 15%">AMOUNT</th>
+                    </tr>
+                </thead>
+                <tbody id="print-table-body">
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="4" class="text-right"><strong>TOTAL</strong></td>
+                        <td id="print-total"><strong>0.00</strong></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+
+    <!-- Modal Form -->
+    <div id="item-modal" class="modal hidden">
+        <div class="modal-content card">
+            <h3 id="modal-title">Add/Edit Item</h3>
+            <input type="hidden" id="modal-item-id">
+            <div class="form-group">
+                <label>Product Name</label>
+                <input type="text" id="modal-item-name" placeholder="e.g. 3/4 pipe 10kg">
+            </div>
+            <div class="form-group">
+                <label>Price / Rate (₹ per piece)</label>
+                <input type="number" id="modal-item-rate" step="0.01">
+            </div>
+            <div class="form-group">
+                <label>Stock Qty</label>
+                <input type="number" id="modal-item-stock" step="0.01">
+            </div>
+            <div class="modal-actions">
+                <button id="modal-cancel-btn" class="secondary-btn">Cancel</button>
+                <button id="modal-save-btn" class="primary-btn">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bulk Stock Update Modal -->
+    <div id="bulk-stock-modal" class="modal hidden">
+        <div class="modal-content card"
+            style="max-width: 700px; max-height: 80vh; display: flex; flex-direction: column;">
+            <h3 style="margin-bottom: 12px;">Add Multiple Stocks (Quick Update)</h3>
+            <p class="hint">Type the quantity you want to ADD to existing stocks.</p>
+            <input type="text" id="bulk-stock-search" placeholder="Search inventory..." class="search-input"
+                style="margin-bottom: 16px;">
+
+            <div class="table-wrapper" style="flex: 1; overflow-y: auto;">
+                <table class="stock-table">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Current Stock</th>
+                            <th style="width: 120px;">+ Add Stock</th>
+                        </tr>
+                    </thead>
+                    <tbody id="bulk-stock-body">
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="modal-actions" style="margin-top: 20px;">
+                <button id="bulk-stock-cancel-btn" class="secondary-btn">Cancel</button>
+                <button id="bulk-stock-save-btn" class="primary-btn">Save Stocks</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bulk Create Products Modal -->
+    <div id="bulk-create-modal" class="modal hidden">
+        <div class="modal-content card"
+            style="max-width: 800px; max-height: 80vh; display: flex; flex-direction: column;">
+            <h3 style="margin-bottom: 12px;">Create Multiple New Products</h3>
+            <p class="hint">Enter details for new products below. Blank rows will be ignored.</p>
+
+            <div class="table-wrapper" style="flex: 1; overflow-y: auto;">
+                <table class="stock-table">
+                    <thead>
+                        <tr>
+                            <th>Product Name</th>
+                            <th style="width: 150px;">Rate (₹/Piece)</th>
+                            <th style="width: 150px;">Initial Stock</th>
+                        </tr>
+                    </thead>
+                    <tbody id="bulk-create-body">
+                        <!-- Empty rows injected here -->
+                    </tbody>
+                </table>
+                <button id="add-bulk-row-btn" class="secondary-btn" style="margin-top: 12px; width: 100%;">+ Add Another
+                    Row</button>
+            </div>
+
+            <div class="modal-actions" style="margin-top: 20px;">
+                <button id="bulk-create-cancel-btn" class="secondary-btn">Cancel</button>
+                <button id="bulk-create-save-btn" class="primary-btn">Save All Products</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bulk Add Modal -->
+    <div id="bulk-modal" class="modal hidden">
+        <div class="modal-content card"
+            style="max-width: 700px; max-height: 80vh; display: flex; flex-direction: column;">
+            <h3 style="margin-bottom: 12px;">Add Multiple Products</h3>
+            <input type="text" id="bulk-search" placeholder="Search inventory..." class="search-input"
+                style="margin-bottom: 16px;">
+
+            <div class="table-wrapper" style="flex: 1; overflow-y: auto;">
+                <table class="stock-table">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Rate (₹)</th>
+                            <th>Stock</th>
+                            <th style="width: 120px;">Qty to Add</th>
+                        </tr>
+                    </thead>
+                    <tbody id="bulk-inventory-body">
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="modal-actions" style="margin-top: 20px;">
+                <button id="bulk-cancel-btn" class="secondary-btn">Cancel</button>
+                <button id="bulk-save-btn" class="primary-btn">Add Selected</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>

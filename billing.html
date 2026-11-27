@@ -43,7 +43,7 @@
                             d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z">
                         </path>
                     </svg>
-                    Settings
+                    Profile
                 </button>
             </nav>
         </aside>
@@ -91,9 +91,12 @@
                             style="display: flex; flex-direction: column; gap: 12px; align-items: stretch; margin-bottom: 12px;">
                             <div style="display: flex; gap: 12px; width: 100%;">
                                 <div class="search-wrapper" style="flex: 1;">
-                                    <input type="text" id="item-search" placeholder="Type to search stock..."
-                                        autocomplete="off">
-                                    <div id="search-results" class="search-dropdown hidden"></div>
+                                    <input type="text" id="item-search" placeholder="Search products..."
+                                        autocomplete="off" role="combobox" aria-label="Search products"
+                                        aria-autocomplete="list" aria-haspopup="listbox" aria-expanded="false"
+                                        aria-controls="search-results">
+                                    <div id="search-results" class="search-dropdown hidden" role="listbox"
+                                        aria-label="Product suggestions"></div>
                                 </div>
                                 <div class="qty-wrapper" style="width: 80px; flex: none;">
                                     <input type="number" id="item-qty" placeholder="Qty" value="1" min="0.01"
@@ -107,7 +110,7 @@
                                     style="flex: 1; justify-content: center;">Bulk Add Multiple</button>
                             </div>
                         </div>
-                        <div id="selected-item-info" class="item-info muted">Select an item to view stock.</div>
+                        <div id="selected-item-info" class="item-info muted">Select a product to view its price.</div>
                     </div>
 
                     <div class="panel full current-bill card">
@@ -144,7 +147,7 @@
                 <header>
                     <div>
                         <h1>Inventory Management</h1>
-                        <p class="subtitle">Manage products, pricing, and view active stock</p>
+                        <p class="subtitle">Manage products, pricing, and categories</p>
                     </div>
                     <div style="display: flex; gap: 8px;">
                         <button id="add-new-item-btn" class="primary-btn">
@@ -153,7 +156,7 @@
                                 <line x1="12" y1="5" x2="12" y2="19"></line>
                                 <line x1="5" y1="12" x2="19" y2="12"></line>
                             </svg>
-                            Add Stock
+                            Add Product
                         </button>
                         <button id="bulk-create-btn" class="secondary-btn">Create Multiple Products</button>
                         <button id="bulk-stock-btn" class="secondary-btn">Update Multiple Stocks</button>
@@ -161,6 +164,9 @@
                 </header>
                 <div class="card panel full">
                     <div class="table-controls">
+                        <select id="inventory-category-filter" class="search-input" aria-label="Filter inventory by category">
+                            <option value="">All categories</option>
+                        </select>
                         <input type="text" id="inventory-search" placeholder="Filter inventory..." class="search-input">
                     </div>
                     <div class="table-wrapper">
@@ -169,8 +175,7 @@
                                 <tr>
                                     <th>Item Name</th>
                                     <th>Rate (₹/Piece)</th>
-                                    <th>Current Stock (Pieces)</th>
-                                    <th>Actions</th>
+                                    <th class="text-right">Actions</th>
                                 </tr>
                             </thead>
                             <tbody id="inventory-body">
@@ -184,11 +189,11 @@
             <section id="settings" class="page">
                 <header>
                     <div>
-                        <h1>Settings</h1>
+                        <h1>Profile</h1>
                         <p class="subtitle">Customize your invoice presentation. If a field is empty, it will be
                             automatically hidden.</p>
                     </div>
-                    <button id="save-settings-btn" class="primary-btn">Save Settings</button>
+                    <button id="save-settings-btn" class="primary-btn">Save Profile</button>
                 </header>
                 <div class="settings-container">
                     <div class="card panel half">
@@ -290,6 +295,10 @@
                 <input type="text" id="modal-item-name" placeholder="e.g. 3/4 pipe 10kg">
             </div>
             <div class="form-group">
+                <label>Category</label>
+                <select id="modal-item-category"></select>
+            </div>
+            <div class="form-group">
                 <label>Price / Rate (₹ per piece)</label>
                 <input type="number" id="modal-item-rate" step="0.01">
             </div>
@@ -379,7 +388,6 @@
                         <tr>
                             <th>Product</th>
                             <th>Rate (₹)</th>
-                            <th>Stock</th>
                             <th style="width: 120px;">Qty to Add</th>
                         </tr>
                     </thead>
@@ -395,7 +403,8 @@
         </div>
     </div>
 
-    <script src="app.js?v=2"></script>
+    <script src="inventory-data.js?v=1"></script>
+    <script src="app.js?v=3"></script>
 </body>
 
 </html>
